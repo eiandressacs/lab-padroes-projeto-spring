@@ -26,15 +26,15 @@ public class ClienteServiceImpl implements ClienteService {
 	// Strategy: Implementar os métodos definidos na interface.
 	// Facade: Abstrair integrações com subsistemas, provendo uma interface simples.
 
+	// Buscar todos os Clientes.
 	@Override
 	public Iterable<Cliente> buscarTodos() {
-		// Buscar todos os Clientes.
 		return clienteRepository.findAll();
 	}
 
+	// Buscar Cliente por ID.
 	@Override
 	public Cliente buscarPorId(Long id) {
-		// Buscar Cliente por ID.
 		Optional<Cliente> cliente = clienteRepository.findById(id);
 		return cliente.get();
 	}
@@ -44,23 +44,23 @@ public class ClienteServiceImpl implements ClienteService {
 		salvarClienteComCep(cliente);
 	}
 
+	// Buscar Cliente por ID, caso exista:
 	@Override
 	public void atualizar(Long id, Cliente cliente) {
-		// Buscar Cliente por ID, caso exista:
 		Optional<Cliente> clienteBd = clienteRepository.findById(id);
 		if (clienteBd.isPresent()) {
 			salvarClienteComCep(cliente);
 		}
 	}
 
+	// Deletar Cliente por ID.
 	@Override
 	public void deletar(Long id) {
-		// Deletar Cliente por ID.
 		clienteRepository.deleteById(id);
 	}
 
+	// Verificar se o Endereco do Cliente já existe (pelo CEP).
 	private void salvarClienteComCep(Cliente cliente) {
-		// Verificar se o Endereco do Cliente já existe (pelo CEP).
 		String cep = cliente.getEndereco().getCep();
 		Endereco endereco = enderecoRepository.findById(cep).orElseGet(() -> {
 			// Caso não exista, integrar com o ViaCEP e persistir o retorno.
@@ -68,8 +68,8 @@ public class ClienteServiceImpl implements ClienteService {
 			enderecoRepository.save(novoEndereco);
 			return novoEndereco;
 		});
-		cliente.setEndereco(endereco);
 		// Inserir Cliente, vinculando o Endereco (novo ou existente).
+		cliente.setEndereco(endereco);
 		clienteRepository.save(cliente);
 	}
 

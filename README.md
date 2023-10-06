@@ -21,3 +21,5 @@ Dependencias deste projeto incluem criadas :
 - OpenFeign
 
 Espero que este repositório ajude a entender e aplicar esses padrões de projeto em cenários do mundo real com o poder e a simplicidade do ecossistema Spring.
+- OpenAPI/Swagger
+![img.png](img.png)
